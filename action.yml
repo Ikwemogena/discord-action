@@ -26,6 +26,6 @@ runs:
   steps:
     - name: Send Webhook
       id: send_webhook
-      run: go run main.go ${{ inputs.webhook_id }} ${{ inputs.webhook_token }} ${{ inputs.content }}
+      run: go run main.go "${{ inputs.webhook_id }}" "${{ inputs.webhook_token }}" "${{ inputs.content }}"
       shell: bash
       
