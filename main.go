@@ -19,7 +19,7 @@ func check(err error, message string) {
 	}
 }
 
-func SendWebhook(url string, payload Payload) error {
+func NotifyDiscord(url string, payload Payload) error {
 	body, err := json.Marshal(payload)
 	if err != nil {
 		return fmt.Errorf("failed to marshal JSON: %w", err)
@@ -51,22 +51,16 @@ func SendWebhook(url string, payload Payload) error {
 }
 
 func main() {
-	cfg, err := LoadConfig()
-	check(err, "Failed to load config")
-
 	discord := "https://discord.com/api/webhooks"
-    webhookID := cfg.DiscordWebhookID
-	webhookToken := cfg.DiscordWebhookToken
 
-	if webhookID == "" || webhookToken == "" {
-		log.Fatal("Missing Discord webhook credentials in environment variables")
+	if len(os.Args) < 4 {
+		fmt.Println("Usage: go run main.go <webhook_id> <webhook_token> <message>")
+		os.Exit(1)
 	}
-
-	if len(os.Args) < 2 {
-		log.Fatal("Usage: go run main.go <message>")
-	}
-
-	content := os.Args[1]
+	
+	webhookID := os.Args[1]
+	webhookToken := os.Args[2]
+	content := os.Args[3]
 
 	webhookURL := fmt.Sprintf("%s/%s/%s", discord, webhookID, webhookToken)
 
@@ -74,13 +68,9 @@ func main() {
 		Content: content,
 	}
 		
-	err = SendWebhook(webhookURL, payload)
+	err := NotifyDiscord(webhookURL, payload)
 
 	check(err, "Failed to send webhook")
-
-	if err != nil {
-		log.Fatalf("Failed to send webhook: %v", err)
-	}
 
 	fmt.Println("Webhook sent successfully!")
 }
