@@ -1,0 +1,27 @@
+name: 'Discord Message Notification'
+
+description: 'Send a message to a Discord channel'
+
+inputs:
+  webhook_id:
+    description: 'Discord webhook id'
+    required: true
+  webhook_token:
+    description: 'Discord webhook token'
+    required: true
+  content:
+    description: 'The message contents (up to 2000 characters)'
+
+outputs:
+  status:
+    description: 'The status of the message'
+    value: ${{ steps.send_webhook.outputs.status }}
+
+runs:
+  using: composite
+  steps:
+    - name: Send Webhook
+      id: send_webhook
+      run: go run main.go ${{ inputs.webhook_id }} ${{ inputs.webhook_token }} ${{ inputs.content }}
+      shell: bash
+      
