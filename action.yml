@@ -24,8 +24,19 @@ branding:
 runs:
   using: composite
   steps:
-    - name: Send Webhook
-      id: send_webhook
-      run: go run main.go "${{ inputs.webhook_id }}" "${{ inputs.webhook_token }}" "${{ inputs.content }}"
+    - name: Checkout repository
+      uses: actions/checkout@v4
+    
+    - name: Set up Go
+      uses: actions/setup-go@v4
+      with:
+        go-version: 1.22
+
+    - name: Build Go application
+      run: go build -o discord-bot main.go
       shell: bash
       
+    - name: Send Webhook
+      id: send_webhook
+      run: ./discord-bot "${{ inputs.webhook_id }}" "${{ inputs.webhook_token }}" "${{ inputs.content }}"
+      shell: bash
