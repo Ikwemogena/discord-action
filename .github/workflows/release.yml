@@ -27,6 +27,6 @@ jobs:
         with:
           webhook_id: ${{ secrets.DISCORD_WEBHOOK_ID }}
           webhook_token: ${{ secrets.DISCORD_WEBHOOK_TOKEN }}
-          content: 'Hello, World!'
+          content: "🚀 New deployment: ${{ github.sha }}"
 
 
