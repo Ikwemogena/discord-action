@@ -7,6 +7,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"strings"
 )
 
 type Payload struct {
@@ -60,8 +61,8 @@ func main() {
 	
 	webhookID := os.Args[1]
 	webhookToken := os.Args[2]
-	content := os.Args[3]
-
+	content := strings.Join(os.Args[3:], " ")
+	
 	webhookURL := fmt.Sprintf("%s/%s/%s", discord, webhookID, webhookToken)
 
     payload := Payload{
