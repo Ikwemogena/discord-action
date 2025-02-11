@@ -17,6 +17,10 @@ outputs:
     description: 'The status of the message'
     value: ${{ steps.send_webhook.outputs.status }}
 
+branding:
+  icon: 'message-square'
+  color: 'purple'
+
 runs:
   using: composite
   steps:
