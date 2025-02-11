@@ -22,4 +22,11 @@ jobs:
       - name: Show Go version
         run: go version
 
+      - name: Send Discord Notification
+        uses: Ikwemogena/discord-action@beta
+        with:
+          webhook_id: ${{ secrets.DISCORD_WEBHOOK_ID }}
+          webhook_token: ${{ secrets.DISCORD_WEBHOOK_TOKEN }}
+          content: 'Hello, World!'
+
 
